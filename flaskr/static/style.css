@@ -45,6 +45,7 @@ nav ul li span,
 header .action {
   display: block;
   padding: 0.5rem;
+  padding-inline-start: inherit;
 }
 .content {
   padding: 0 1rem 1rem;
@@ -109,4 +110,8 @@ input.danger {
 input[type="submit"] {
   align-self: start;
   min-width: 10em;
+}
+
+.username {
+  display: inline;
 }
