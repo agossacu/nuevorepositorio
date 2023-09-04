@@ -14,7 +14,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        confirmPassword=request.form['confirmPassword']
+        confiPassword=request.form['confirmPassword']
         db = get_db()
         error = None
 
@@ -22,7 +22,7 @@ def register():
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
-        elif not confirmPassword == password:
+        elif  not confiPassword == password:
             error = 'Las contraseñas no coinciden.'
         if error is None:
             try:
