@@ -35,7 +35,7 @@ def register():
                 )
                 db.commit()
             except db.IntegrityError:
-                error = f"User {username} is already registered."
+                error = f"El usuario {username} ya esta registrado."
             else:
                 return redirect(url_for("auth.login"))
 
@@ -55,9 +55,9 @@ def login():
         ).fetchone()
 
         if user is None:
-            error = 'Incorrect username.'
+            error = 'Usuario incorrecto.'
         elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
+            error = 'Contraseña incorrecta.'
 
         if error is None:
             session.clear()
@@ -93,3 +93,26 @@ def login_required(view):
         return view(**kwargs)
 
     return wrapped_view
+
+@bp.route('/cambMail', methods=('GET', 'POST'))
+@login_required
+def cambMail():
+    if request.method == 'POST':
+        mail = request.form['mail']
+        error = None
+        
+        if not mail:
+            error = 'Se necesita tener un mail previamente.'
+
+
+        if not error:    
+            db = get_db()
+            db.execute('UPDATE user SET email = ? WHERE id = ?',
+                (mail, g.user['id']))
+            db.commit()
+            return redirect(url_for('blog.index'))
+        flash(error)
+
+    return render_template('auth/cambMail.html')
+
+
